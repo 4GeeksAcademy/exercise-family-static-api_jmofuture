@@ -1,75 +1,79 @@
-
-"""
-update this file to implement the following already declared methods:
-- add_member: Should add a member to the self._members list
-- delete_member: Should delete a member from the self._members list
-- update_member: Should update a member from the self._members list
-- get_member: Should return a member from the self._members list
-"""
+from typing import Dict, Any
 from random import randint
 
 class FamilyStructure:
-    def __init__(self, last_name: str) -> None:
+    def __init__(self, last_name: str):
         self.last_name = last_name
+        self._members = [
+            {
+                "id": self._generate_id(),
+                "first_name": "John",
+                "last_name": self.last_name,
+                "age": 33,
+                "lucky_numbers": [7, 13, 22]
+            },
+            {
+                "id": self._generate_id(),
+                "first_name": "Jane",
+                "last_name": self.last_name,
+                "age": 35,
+                "lucky_numbers": [10, 14, 3]
+            },
+            {
+                "id": self._generate_id(),
+                "first_name": "Jimmy",
+                "last_name": self.last_name,
+                "age": 5,
+                "lucky_numbers": [1]
+            }
+        ]
 
-        # example list of members
-        self._members = []
 
-
-    def _generateId(self) -> int:
+    def _generate_id(self):
         return randint(0, 99999999)
+    
 
+    def add_member(self, member: Dict[str, Any]) -> Dict[str, Any]:
+ 
+        if "id" not in member:
+            member["id"] = self._generate_id()
 
-    def add_member(self, member: dict) -> None:
-
-        member["id"] = self._generateId()
         member["last_name"] = self.last_name
 
+        if "first_name" not in member or "age" not in member or "lucky_numbers" not in member:
+            raise ValueError("El miembro debe tener 'first_name', 'age' y 'lucky_numbers'.")
+
         self._members.append(member)
+        
+        return member
 
 
-    def delete_member(self, id: int) -> None:
+    def delete_member(self, member_id: int) -> bool:
 
-        if not self._members:
-            print("La lista está vacía.")
-            return
+        for i, member in enumerate(self._members):
+
+            if member["id"] == member_id:
+                del self._members[i]
+
+                return True
+            
+        return False
+
+
+    def get_member(self, id: int) -> Dict[str, Any]:
 
         for member in self._members:
+
             if member['id'] == id:
-                self._members.remove(member)  
-                print(f"Se eliminó a {member['first_name']}")
-                return
-        
-        print(f"No se encontró ningún miembro con ID {id}.")
+
+                return member
+        return None
 
 
-    def get_member(self, id: int) -> None:
-
-        if not self._members:
-            print("La lista está vacía.")
-            return
-
-        for member in self._members:
-            if member['id'] == id:
-                print(f"Se eliminó a {member}")
-                return
-        
-        print(f"No se encontró ningún miembro con ID {id}.")
-
-    # this method is done, it returns a list with all the family members
-    def get_all_members(self) -> None:
-        return self._members
-    
-    
+    def get_all_members(self) -> list:
+        return self._members.copy()
 
 if __name__ == "__main__":
-
     family = FamilyStructure("Jackson")
 
-
-    family.add_member({"first_name": "Jean", "age": 25, "lucky_numbers": [7, 14, 21]})
-    family.add_member({"first_name": "Lucia", "age": 30, "lucky_numbers": [3, 5, 9]})
-
-
     print(family.get_all_members())
-

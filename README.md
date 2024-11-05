@@ -169,6 +169,7 @@ status_code: 200 if success. 400 if a bad request (wrong info). 500 if the serve
 
 Which deletes a family member with `id == member_id`
 
+
 ```md
 DELETE /member/<int:member_id>
 
