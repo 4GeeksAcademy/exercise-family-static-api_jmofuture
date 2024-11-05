@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 from random import randint
 
 class FamilyStructure:
@@ -70,7 +70,7 @@ class FamilyStructure:
         return None
 
 
-    def get_all_members(self) -> list:
+    def get_all_members(self) -> List:
         return self._members.copy()
 
 if __name__ == "__main__":
